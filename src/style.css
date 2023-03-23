@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  height: 100vh;
+}
+
+#content {
+  background-color: #ffffff;
+  padding: 50px;
+  margin: 0;
+  height: 88.5vh;
+  display: grid;
+  grid-template-columns: 400px 1fr 400px;
+  grid-template-rows: 270px 100px minmax(800px, 1fr) 370px;
+  grid-template-areas:
+    'header header header'
+    '. . .'
+    'projects todo .'
+    'footer footer footer';
+  justify-content: center;
+  align-content: center;
+}
+
+#case {
+  grid-area: todo;
+  height: 900px;
+  width: 900px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #42966f;
+  border-radius: 40px;
+}
+
+.frameHeader {
+  background-color: #4974df;
+  height: 100px;
+  font-size: larger;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-bottom: solid 1px black;
+}
+
+.frameBody {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px;
+  grid-auto-rows: 80px;
+  row-gap: 10px;
+  padding: 30px;
+  justify-content: center;
+  align-content: center;
+}
+
+.todo {
+  display: grid;
+  grid-template-columns: 15px 500px 40px 40px 15px 15px;
+  column-gap: 8px;
+  padding: 5px;
+  border: 1px solid #4974df;
+  background-color: #e0e0e0;
+  transition: all 0.2s ease-in-out;
+}
+
+.todo:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.projectFrame {
+  grid-area: projects;
+  height: 900px;
+  width: 300px;
+  border: 2px solid #42966f;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 30px;
+}
+
+.projectHeader {
+  font-size: larger;
+  font-weight: bold;
+  margin: auto;
+}
+
+.projectBody {
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px;
+  grid-auto-rows: 80px;
+  row-gap: 10px;
+}
