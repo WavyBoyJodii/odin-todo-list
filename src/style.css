@@ -75,8 +75,13 @@ body {
   border: 2px solid #42966f;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 250px;
+  grid-template-rows: 80px 1fr 100px;
+  grid-template-areas:
+    'header'
+    'projectList'
+    'projectButton';
   justify-content: center;
   align-content: center;
   padding: 30px;

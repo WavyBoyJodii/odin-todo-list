@@ -1,10 +1,18 @@
 import { makeTodo } from './todo';
-import { whichProject, addToProject } from './projects';
+import { addToProject, projectslist } from './projects';
 import { priorityValue } from './forms';
 
-const createToDo = (event) => {
+let chosenProject = '';
+
+export const createToDo = (event) => {
   event.PreventDefault();
   const todo = makeTodo(title.value, desc.value, date.value, priorityValue());
-  const chosenProject = whichProject();
   addToProject(todo, chosenProject);
+};
+
+export const updateChosenProject = (x) => {
+  const index = projectslist.findIndex((project) => project.title === x.title);
+  console.log(x);
+  console.log(index);
+  chosenProject = projectslist[index];
 };
