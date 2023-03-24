@@ -53,6 +53,18 @@ body {
   align-content: center;
 }
 
+.frameButton {
+  height: 30px;
+  width: 50px;
+  background-color: #42966f;
+  transition: all 0.2s ease-in-out;
+}
+
+.frameButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
 .todo {
   display: grid;
   grid-template-columns: 15px 500px 40px 40px 15px 15px;
@@ -85,12 +97,15 @@ body {
   justify-content: center;
   align-content: center;
   padding: 30px;
+  background-color: #e0e0e0;
+  color: #4974df;
 }
 
 .projectHeader {
   font-size: larger;
   font-weight: bold;
   margin: auto;
+  grid-area: header;
 }
 
 .projectBody {
@@ -98,4 +113,18 @@ body {
   grid-template-rows: 80px;
   grid-auto-rows: 80px;
   row-gap: 10px;
+  grid-area: projectList;
+}
+
+.projectList {
+  color: black;
+  transition: all 0.2s ease-in-out;
+}
+
+.projectList:hover {
+  transform: scale(1.1);
+}
+
+.projectButton {
+  grid-area: projectButton;
 }
