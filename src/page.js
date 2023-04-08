@@ -1,25 +1,44 @@
 import './style.css';
 import clipboard from './img/clipboard.png';
+import {
+  contentDiv,
+  frame,
+  projectFrame,
+  projectBody,
+  frameHeader,
+  frameBody,
+  newToDoButton,
+} from '.';
+import { initToDoForm } from './forms';
+import { openTodoForm } from './unappend';
+import { projectslist } from './projects';
 
-// export const pageHead = document.createElement('div');
-// export const contentDiv = document.getElementById('content');
+// export const initPage = () => {
+//   frame.id = 'case';
+//   frameHeader.classList.add('frameHead');
+//   const clipboardArt = new Image();
+//   clipboardArt.src = clipboard;
+//   clipboardArt.classList.add('frameHeadArt');
 
-// export const frame = document.createElement('div');
-// export const frameHeader = document.createElement('div');
-// export const frameBody = document.createElement('div');
+//   const frameTitle = document.createElement('p');
+//   frameTitle.textContent = 'To Do';
 
-// export const projectFrame = document.createElement('div');
+//   frameHeader.append(clipboardArt, frameTitle);
 
-export const initPage = () => {
-  const contentDiv = document.getElementById('content');
+//   frameBody.classList.add('frameBody');
 
-  const frame = document.createElement('div');
-  const frameHeader = document.createElement('div');
-  const frameBody = document.createElement('div');
+//   newToDoButton.classList.add('newToDoButton');
+//   newToDoButton.textContent = 'New To Do';
+//   newToDoButton.addEventListener('click', initToDoForm);
 
-  const projectFrame = document.createElement('div');
-  // pageHead.classList.add('pageHead');
+//   frame.append(frameHeader, frameBody, newToDoButton);
 
+//   projectFrame.classList.add('projectFrame');
+
+//   contentDiv.append(frame, projectFrame);
+// };
+
+export const initFrame = () => {
   frame.id = 'case';
   frameHeader.classList.add('frameHead');
   const clipboardArt = new Image();
@@ -32,15 +51,41 @@ export const initPage = () => {
   frameHeader.append(clipboardArt, frameTitle);
 
   frameBody.classList.add('frameBody');
+  frame.append(frameHeader, frameBody);
+  contentDiv.append(frame);
+};
 
-  const newToDoButton = document.createElement('button');
+export const initNewToDo = () => {
   newToDoButton.classList.add('newToDoButton');
   newToDoButton.textContent = 'New To Do';
+  newToDoButton.addEventListener('click', openTodoForm);
 
-  frame.append(frameHeader, frameBody, newToDoButton);
+  frame.append(newToDoButton);
+};
 
+export const initProjectFrame = () => {
   projectFrame.classList.add('projectFrame');
+  projectBody.classList.add('projectBody');
+  projectFrame.append(projectBody);
+  contentDiv.append(projectFrame);
+  displayProjects(projectslist);
+};
 
-  contentDiv.append(frame, projectFrame);
-  return { contentDiv, frame, frameBody, newToDoButton, projectFrame };
+const displayProjects = (obj) => {
+  for (const project of obj) {
+    const disp = document.createElement('p');
+    disp.textContent = `${project.title}`;
+    disp.classList.add('projectList');
+    projectBody.append(disp);
+  }
+};
+
+const displayTodo = (obj) => {
+  for (const todo of obj.list) {
+    const disp = document.createElement('div');
+    disp.classList.add('todo');
+    for (key in todo) {
+     if (Object.hasOwn(todo, key)) 
+    }
+  }
 };

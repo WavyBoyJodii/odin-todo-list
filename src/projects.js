@@ -1,9 +1,9 @@
-export const projectslist = [];
-
 export const defaultProject = {
   title: 'default',
   list: [],
 };
+
+export const projectslist = [defaultProject];
 
 const Project = (title) => {
   const list = [];

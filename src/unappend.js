@@ -1,13 +1,33 @@
-import { initPage } from './page';
 import { initToDoForm } from './forms';
+import {
+  contentDiv,
+  frame,
+  projectFrame,
+  frameHeader,
+  frameBody,
+  newToDoButton,
+} from '.';
 
-function unnapendTodos() {
-  initPage().frameBody.replaceChildren();
-  initPage().frame.removeChild(initPage().newToDoButton);
+function clearFrameBody() {
+  frameBody.replaceChildren();
+}
+
+function unappendAll() {
+  frame.replaceChildren();
+}
+
+function removeNewTodo() {
+  newToDoButton.remove();
 }
 
 export function openTodoForm() {
-  initPage().frameBody.className = '';
-  unnapendTodos();
+  frameBody.className = '';
+  clearFrameBody();
+  removeNewTodo();
   initToDoForm();
+}
+
+export function openTodoDisplay() {
+  frameBody.className = '';
+  clearFrameBody();
 }
