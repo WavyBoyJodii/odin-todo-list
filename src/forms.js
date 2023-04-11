@@ -1,6 +1,5 @@
 import { makeTodo } from './todo';
-import { addToProject, projectslist } from './projects';
-import { checkChosenProject } from './events';
+import { addToProject, projectslist, checkChosenProject } from './projects';
 import clipboard from './img/clipboard.png';
 import {
   contentDiv,
@@ -10,6 +9,7 @@ import {
   frameBody,
   newToDoButton,
 } from '.';
+import { openTodoDisplay } from './unappend';
 import './style.css';
 
 export const priorityValue = function displayRadioValue() {
@@ -100,6 +100,7 @@ export const initToDoForm = () => {
       priorityValue()
     );
     checkChosenProject(todo);
+    openTodoDisplay();
   };
 
   const toDoSubmit = document.createElement('button');

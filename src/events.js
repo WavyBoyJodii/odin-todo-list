@@ -10,14 +10,14 @@ let chosenProject = '';
 //   checkChosenProject(todo);
 // };
 
-export const checkChosenProject = (x) => {
+const checkChosenProject = (x) => {
   if (chosenProject === '') {
     addToProject(x, defaultProject);
   } else {
     addToProject(x, chosenProject);
   }
 };
-export const updateChosenProject = (x) => {
+const updateChosenProject = (x) => {
   const index = projectslist.findIndex((project) => project.title === x.title);
   console.log(x);
   console.log(index);

@@ -27,4 +27,4 @@ class ToDo {
 //   return task;
 // };
 
-export const makeTodo = new ToDo();
+export const makeTodo = () => new ToDo();

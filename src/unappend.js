@@ -7,6 +7,7 @@ import {
   frameBody,
   newToDoButton,
 } from '.';
+import { displayTodo } from './page';
 
 function clearFrameBody() {
   frameBody.replaceChildren();
@@ -30,4 +31,5 @@ export function openTodoForm() {
 export function openTodoDisplay() {
   frameBody.className = '';
   clearFrameBody();
+  displayTodo();
 }

@@ -11,7 +11,7 @@ import {
 } from '.';
 import { initToDoForm } from './forms';
 import { openTodoForm } from './unappend';
-import { projectslist } from './projects';
+import { projectslist, whichProject } from './projects';
 
 // export const initPage = () => {
 //   frame.id = 'case';
@@ -71,7 +71,7 @@ export const initProjectFrame = () => {
   displayProjects(projectslist);
 };
 
-const displayProjects = (obj) => {
+export const displayProjects = (obj) => {
   for (const project of obj) {
     const disp = document.createElement('p');
     disp.textContent = `${project.title}`;
@@ -80,12 +80,55 @@ const displayProjects = (obj) => {
   }
 };
 
-const displayTodo = (obj) => {
-  for (const todo of obj.list) {
-    const disp = document.createElement('div');
-    disp.classList.add('todo');
-    for (key in todo) {
-     if (Object.hasOwn(todo, key)) 
+export const displayTodo = (obj) => {
+  // for (const todo of obj.list) {
+  obj.forEach((todo) => {
+    if (todo === 'list') {
+      const disp = document.createElement('div');
+      disp.classList.add('todo');
+      todo.forEach((item) => {
+        if (item === 'title') {
+          const title = document.createElement('p');
+          title.textContent = `${todo[item]}`;
+          title.classList.add('title-todo');
+          disp.append(title);
+        }
+        if (item === 'description') {
+          const description = document.createElement('button');
+          description.textContent = `Details`;
+          description.classList.add('desc-todo');
+          disp.append(description);
+        }
+        if (item === 'date') {
+          const date = document.createElement('p');
+          const inputDate = new Date(todo[item]);
+          date.textContent = `${inputDate}`;
+          date.classList.add('date-todo');
+          disp.append(date);
+        }
+        if (item === 'priority') {
+          const priority = document.createElement('div');
+          if (todo[item] === 'low') {
+            priority.classList.add('low-priority-div');
+          } else if (todo[item] === 'mid') {
+            priority.classList.add('mid-priority-div');
+          } else priority.classList.add('high-priority-div');
+          disp.append(priority);
+        }
+        if (item === 'checked') {
+          const checkbox = document.createElement('div');
+          checkbox.classList.add('checkbox-todo');
+          disp.append(checkbox);
+        }
+      });
+      frameBody.append(disp);
     }
-  }
+  });
+};
+
+export const initPage = () => {
+  initFrame();
+  initNewToDo();
+  initProjectFrame();
+  displayTodo(whichProject());
 };
