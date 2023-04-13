@@ -33,3 +33,9 @@ export function openTodoDisplay() {
   clearFrameBody();
   displayTodo();
 }
+
+export function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}

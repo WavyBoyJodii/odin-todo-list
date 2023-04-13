@@ -11,32 +11,13 @@ import {
 } from '.';
 import { initToDoForm } from './forms';
 import { openTodoForm } from './unappend';
-import { projectslist, whichProject } from './projects';
-
-// export const initPage = () => {
-//   frame.id = 'case';
-//   frameHeader.classList.add('frameHead');
-//   const clipboardArt = new Image();
-//   clipboardArt.src = clipboard;
-//   clipboardArt.classList.add('frameHeadArt');
-
-//   const frameTitle = document.createElement('p');
-//   frameTitle.textContent = 'To Do';
-
-//   frameHeader.append(clipboardArt, frameTitle);
-
-//   frameBody.classList.add('frameBody');
-
-//   newToDoButton.classList.add('newToDoButton');
-//   newToDoButton.textContent = 'New To Do';
-//   newToDoButton.addEventListener('click', initToDoForm);
-
-//   frame.append(frameHeader, frameBody, newToDoButton);
-
-//   projectFrame.classList.add('projectFrame');
-
-//   contentDiv.append(frame, projectFrame);
-// };
+import {
+  whichProject,
+  makeNewProject,
+  displayProjects,
+  initProjectBody,
+  initProjectFrame,
+} from './projects';
 
 export const initFrame = () => {
   frame.id = 'case';
@@ -63,22 +44,32 @@ export const initNewToDo = () => {
   frame.append(newToDoButton);
 };
 
-export const initProjectFrame = () => {
-  projectFrame.classList.add('projectFrame');
-  projectBody.classList.add('projectBody');
-  projectFrame.append(projectBody);
-  contentDiv.append(projectFrame);
-  displayProjects(projectslist);
-};
+// export const initProjectFrame = () => {
+//   projectFrame.classList.add('projectFrame');
+//   projectBody.classList.add('projectBody');
+//   projectFrame.append(projectBody);
+//   projectBody.addEventListener('click', e => {
+//     if (e.target.tagName.toLowerCase() === 'p') {
 
-export const displayProjects = (obj) => {
-  for (const project of obj) {
-    const disp = document.createElement('p');
-    disp.textContent = `${project.title}`;
-    disp.classList.add('projectList');
-    projectBody.append(disp);
-  }
-};
+//     }
+//   });
+//   contentDiv.append(projectFrame);
+//   makeNewProject('tester');
+//   displayProjects(projectslist);
+// };
+
+// export const displayProjects = (obj) => {
+//   for (const project of obj) {
+//     const disp = document.createElement('p');
+//     disp.textContent = `${project.title}`;
+//     disp.dataset.projectId = project.id;
+//     disp.classList.add('projectList');
+//     if (project.id === selectedProjectId) {
+//       disp.classList.add('chosen-project');
+//     }
+//     projectBody.append(disp);
+//   }
+// };
 
 export const displayTodo = (obj) => {
   // for (const todo of obj.list) {
@@ -130,5 +121,6 @@ export const initPage = () => {
   initFrame();
   initNewToDo();
   initProjectFrame();
+  initProjectBody();
   displayTodo(whichProject());
 };

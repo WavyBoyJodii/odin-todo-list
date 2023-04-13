@@ -113,17 +113,95 @@ body {
 
 .todo {
   display: grid;
-  grid-template-columns: 15px 500px 40px 40px 15px 15px;
+  grid-template-columns: 30px 300px 90px 40px 40px 25px 25px;
+  grid-template-areas: 'checkbox title details date priority edit delete';
   column-gap: 8px;
   padding: 5px;
   border: 1px solid #4974df;
   background-color: #e0e0e0;
   transition: all 0.2s ease-in-out;
+  min-height: 80px;
+  height: 100%;
+  max-height: 80px;
+  min-width: 800px;
+  max-width: 800px;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .todo:hover {
   transform: scale(1.1);
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.checkbox-todo {
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.title-todo {
+  grid-area: title;
+  min-width: 250px;
+  font-size: 24px;
+}
+
+.desc-todo {
+  grid-area: details;
+  height: 40px;
+  width: 85px;
+  cursor: pointer;
+}
+
+.date-todo {
+  grid-area: date;
+}
+
+.low-priority-todo {
+  grid-area: priority;
+  min-width: 60px;
+  min-height: 40px;
+  background-color: #ffffff;
+  border: 2px solid #4974df;
+  border-radius: 15px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.mid-priority-todo {
+  grid-area: priority;
+  min-width: 60px;
+  min-height: 40px;
+  background-color: #ffffff;
+  border: 2px solid #42956f;
+  border-radius: 15px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.high-priority-todo {
+  grid-area: priority;
+  min-width: 60px;
+  min-height: 40px;
+  background-color: #ffffff;
+  border: 2px solid red;
+  border-radius: 15px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.edit-todo {
+  grid-area: edit;
+  height: 35px;
+  cursor: pointer;
+}
+
+.delete-todo {
+  grid-area: delete;
+  height: 35px;
+  cursor: pointer;
 }
 
 .projectFrame {
@@ -167,6 +245,12 @@ body {
 .projectList {
   color: black;
   transition: all 0.2s ease-in-out;
+}
+
+.chosen-project {
+  color: #4974df;
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1);
 }
 
 .projectList:hover {
