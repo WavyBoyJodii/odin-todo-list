@@ -11,6 +11,7 @@ export const frameBody = document.createElement('div');
 export const projectFrame = document.createElement('div');
 export const projectBody = document.createElement('div');
 export const newToDoButton = document.createElement('button');
+export const newProjectButton = document.createElement('button');
 
 export const LOCAL_STORAGE_PROJECT_KEY = 'projects.projectslist';
 export const LOCAL_STORAGE_CHOSEN_PROJECT_ID_KEY = 'projects.chosenProjectId';
@@ -34,8 +35,6 @@ class ToDo {
   }
 }
 
-export const makeTodo = () => new ToDo();
-
 const buyGroceries = new ToDo(
   'Buy Groceries',
   'Need fruits and veggies',
@@ -44,10 +43,12 @@ const buyGroceries = new ToDo(
 );
 
 export const defaultProject = {
-  id: 1,
-  title: 'default',
+  id: '1',
+  title: 'Default',
   list: [buyGroceries],
 };
+
+export const makeTodo = () => new ToDo();
 
 const projectslist = JSON.parse(
   localStorage.getItem(LOCAL_STORAGE_PROJECT_KEY)
@@ -89,17 +90,27 @@ export const initProjectFrame = () => {
 export function initProjectBody() {
   projectBody.classList.add('projectBody');
   projectFrame.append(projectBody);
-  makeNewProject('tester');
   console.log(projectslist);
   displayProjects(projectslist);
   projectBody.addEventListener('click', (e) => {
     if (e.target.tagName.toLowerCase() === 'p') {
       chosenProjectId = e.target.dataset.projectId;
-      console.log(chosenProjectId);
+      console.log(
+        `chosen project id in event listener on projects = ${chosenProjectId}`
+      );
+      clearElement(frameBody);
       displayTodo();
+      save();
     }
   });
 }
+
+export const initNewProjectButton = () => {
+  newProjectButton.classList.add('projectButton');
+  newProjectButton.textContent = 'New Project';
+  newProjectButton.addEventListener('click', openProjectForm);
+  projectFrame.append(newProjectButton);
+};
 
 export function clearElement(element) {
   while (element.firstChild) {
@@ -133,10 +144,12 @@ const Project = (title) => {
 export const makeNewProject = (name) => {
   const project = Project(name);
   projectslist.push(project);
+  // save();
   return project;
 };
 export const addToProject = (todoItem, x) => {
   x.list.push(todoItem);
+  // save();
 };
 const checkChosenProject = (x) => {
   const chosenProject = projectslist.find(
@@ -144,8 +157,10 @@ const checkChosenProject = (x) => {
   );
   if (chosenProjectId === null) {
     addToProject(x, defaultProject);
+    // save();
   } else {
     addToProject(x, chosenProject);
+    // save();
   }
 };
 // display stuff
@@ -155,6 +170,7 @@ export const displayProjects = (obj) => {
     disp.textContent = `${project.title}`;
     disp.dataset.projectId = project.id;
     disp.classList.add('projectList');
+    // disp.addEventListener('click', whichTodo);
     if (project.id === chosenProjectId) {
       disp.classList.add('chosen-project');
     }
@@ -163,21 +179,26 @@ export const displayProjects = (obj) => {
 };
 
 export const displayTodo = () => {
+  console.log(
+    `chosen project id at beginning of display todo function = ${chosenProjectId}`
+  );
   let chosenProject = projectslist.find(
     (project) => project.id === chosenProjectId
   );
   if (chosenProjectId === null) {
     chosenProject = defaultProject;
-    console.log(chosenProject);
   }
-  console.log(chosenProject.list);
+  console.log(
+    `This is the chosen project of which the todo's will be displayed LAST STEP ${chosenProject}`
+  );
   chosenProject.list.forEach((todo) => {
     const disp = document.createElement('div');
+    disp.id = todo.id;
     const editButton = new Image();
     editButton.src = editIcon;
     editButton.id = todo.id;
     editButton.addEventListener('click', (e) => {
-      const completedTodo = chosenProject.list.find(
+      const displayedTodo = chosenProject.list.find(
         (todoItem) => todoItem.id === editButton.id
       );
       chosenProject.list = chosenProject.list.filter(
@@ -187,9 +208,9 @@ export const displayTodo = () => {
       clearElement(frameBody);
       removeNewTodo();
       initEditForm(
-        completedTodo.title,
-        completedTodo.description,
-        completedTodo.date
+        displayedTodo.title,
+        displayedTodo.description,
+        displayedTodo.date
       );
     });
     editButton.classList.add('edit-todo');
@@ -219,7 +240,23 @@ export const displayTodo = () => {
         if (key === 'description') {
           const description = document.createElement('button');
           description.textContent = `Details`;
+          description.id = todo.id;
           description.classList.add('desc-todo');
+          description.addEventListener('click', (e) => {
+            const displayedTodo = chosenProject.list.find(
+              (todoItem) => todoItem.id === description.id
+            );
+            frameBody.className = '';
+            removeNewTodo();
+            clearElement(frameBody);
+            // frameBody.classList.add('detailsDisplay');
+            initDetailsDisplay(
+              displayedTodo.title,
+              displayedTodo.description,
+              displayedTodo.date,
+              displayedTodo.priority
+            );
+          });
           disp.append(description);
         }
         if (key === 'date') {
@@ -241,8 +278,32 @@ export const displayTodo = () => {
         }
         if (key === 'checked') {
           const checkbox = document.createElement('div');
-          checkbox.classList.add('checkbox-todo');
+          if (todo.checked === true) {
+            checkbox.className = 'checkbox-todo-checked';
+            disp.className = 'todo-checked';
+          } else {
+            checkbox.className = 'checkbox-todo';
+            disp.className = 'todo';
+          }
           checkbox.id = todo.id;
+          checkbox.addEventListener('click', (e) => {
+            const displayedTodo = chosenProject.list.find(
+              (todoItem) => todoItem.id === checkbox.id
+            );
+            displayedTodo.togglechecked();
+            function checkTodoState(x) {
+              if (x.checked === true) {
+                checkbox.className = 'checkbox-todo-checked';
+                disp.className = 'todo-checked';
+                // save();
+              } else {
+                checkbox.className = 'checkbox-todo';
+                disp.className = 'todo';
+                // save();
+              }
+            }
+            checkTodoState(displayedTodo);
+          });
           disp.append(checkbox);
         }
       }
@@ -251,6 +312,14 @@ export const displayTodo = () => {
   });
 };
 
+function whichTodo(e) {
+  chosenProjectId = e.target.dataset.projectId;
+  console.log(
+    `This is the chosen Project Id within the which todo function ${chosenProjectId}`
+  );
+  clearElement(frameBody);
+  displayTodo();
+}
 // saving
 function save() {
   localStorage.setItem(LOCAL_STORAGE_PROJECT_KEY, JSON.stringify(projectslist));
@@ -268,7 +337,22 @@ export function openTodoForm() {
   removeNewTodo();
   initToDoForm();
 }
-
+export function removeNewProject() {
+  newProjectButton.remove();
+}
+export function openProjectForm() {
+  frameBody.className = '';
+  clearElement(frameBody);
+  removeNewTodo();
+  removeNewProject();
+  initNewProjectForm();
+}
+export function openProjectDisplay() {
+  projectBody.className = '';
+  clearElement(projectBody);
+  initProjectBody();
+  initNewProjectButton();
+}
 export function openTodoDisplay() {
   frameBody.className = '';
   clearElement(frameBody);
@@ -277,6 +361,41 @@ export function openTodoDisplay() {
   initNewToDo();
 }
 
+function initDetailsDisplay(usedTitle, usedDesc, usedDate, usedPriority) {
+  const detailsDisplay = document.createElement('div');
+  detailsDisplay.classList.add('details-container');
+
+  const detailTitle = document.createElement('div');
+  detailTitle.innerText = `${usedTitle}`;
+  detailTitle.classList.add('details-title');
+
+  const detailDescription = document.createElement('div');
+  detailDescription.innerText = `${usedDesc}`;
+  detailDescription.classList.add('details-desc');
+
+  const detailDate = document.createElement('div');
+  detailDate.innerText = `Due ${format(new Date(usedDate), 'MM/dd')}`;
+  detailDate.classList.add('details-date');
+
+  const detailPriority = document.createElement('div');
+  detailPriority.innerText = `${usedPriority} priority`;
+  detailPriority.classList.add('details-priority');
+
+  const detailCloseButton = document.createElement('button');
+  detailCloseButton.textContent = 'Close';
+  detailCloseButton.classList.add('details-closeButton');
+  detailCloseButton.addEventListener('click', openTodoDisplay);
+
+  detailsDisplay.append(
+    detailTitle,
+    detailDescription,
+    detailDate,
+    detailPriority,
+    detailCloseButton
+  );
+  frameBody.classList.add('detailsDisplay');
+  frameBody.append(detailsDisplay);
+}
 // function editTodo() {
 //   const completedTodo = chosenProject.list.find(
 //     (todoItem) => todoItem.id !== editButton.id
@@ -304,6 +423,7 @@ const initEditForm = (usedTitle, usedDesc, usedDate) => {
   title.setAttribute('required', '');
   title.setAttribute('placeholder', `${usedTitle}`);
   title.setAttribute('value', `${usedTitle}`);
+  title.setAttribute('maxlength', '30');
   title.classList.add('form-title');
 
   const description = document.createElement('textarea');
@@ -370,6 +490,7 @@ const initEditForm = (usedTitle, usedDesc, usedDate) => {
     );
     checkChosenProject(todo);
     openTodoDisplay();
+    // save();
   };
 
   const toDoSubmit = document.createElement('button');
@@ -413,6 +534,7 @@ export const initToDoForm = () => {
   title.setAttribute('name', 'title');
   title.setAttribute('required', '');
   title.setAttribute('placeholder', 'Title: Wash Dishes');
+  title.setAttribute('maxlength', '30');
   title.classList.add('form-title');
 
   const description = document.createElement('textarea');
@@ -480,6 +602,7 @@ export const initToDoForm = () => {
     checkChosenProject(todo);
 
     openTodoDisplay();
+    // save();
   };
 
   const toDoSubmit = document.createElement('button');
@@ -499,10 +622,44 @@ export const initToDoForm = () => {
   frameBody.append(toDoForm);
 };
 
+export function initNewProjectForm() {
+  const projectForm = document.createElement('form');
+  projectForm.setAttribute('method', 'post');
+  projectForm.setAttribute('action', 'example.com/path');
+  projectForm.classList.add('todoForm');
+
+  const title = document.createElement('input');
+  title.setAttribute('type', 'text');
+  title.setAttribute('id', 'title');
+  title.setAttribute('name', 'title');
+  title.setAttribute('required', '');
+  title.setAttribute('placeholder', 'Chores, Things To do, Goals..etc');
+  title.setAttribute('maxlength', '30');
+  title.classList.add('form-title');
+
+  const createProject = (event) => {
+    event.preventDefault();
+    makeNewProject(title.value);
+    // checkChosenProject(todo);
+    openProjectDisplay();
+
+    openTodoDisplay();
+  };
+  const projectSubmit = document.createElement('button');
+  projectSubmit.textContent = 'Make New Project';
+  projectSubmit.addEventListener('click', createProject);
+
+  projectForm.append(title, projectSubmit);
+
+  frameBody.classList.add('frameBodyTodo');
+  frameBody.append(projectForm);
+}
+
 export function initPage() {
   initFrame();
   initNewToDo();
   initProjectFrame();
   initProjectBody();
+  initNewProjectButton();
   displayTodo();
 }
