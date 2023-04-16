@@ -344,10 +344,10 @@ body {
 .priorities:hover {
   transform: scale(1.1);
 }
-
+/* 
 .priority-row input[type='radio']:checked + .priorities {
   border: 2px solid #4974df;
-}
+} */
 
 .detailsDisplay {
   height: 100%;
